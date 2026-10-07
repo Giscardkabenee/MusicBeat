@@ -250,6 +250,12 @@ object AppSettings {
 
     val skipSilence = MutableStateFlow(false)
 
+    /**
+     * Move straight on to the next track in the queue when one ends, even
+     * with Repeat off. Off keeps the one-song-then-stop behaviour.
+     */
+    val continuousPlayback = MutableStateFlow(false)
+
     /** Requested PCM representation at the Android AudioTrack boundary. */
     val outputPcmMode = MutableStateFlow(OutputPcmMode.PCM_16)
 
@@ -630,6 +636,7 @@ object AppSettings {
         wifiOnlyDownloads.value = prefs.getBoolean(KEY_WIFI_ONLY_DOWNLOADS, true)
         exportDownloads.value = prefs.getBoolean(KEY_EXPORT_DOWNLOADS, false)
         skipSilence.value = prefs.getBoolean(KEY_SKIP_SILENCE, false)
+        continuousPlayback.value = prefs.getBoolean(KEY_CONTINUOUS_PLAYBACK, false)
         outputPcmMode.value = runCatching {
             OutputPcmMode.valueOf(
                 prefs.getString(KEY_OUTPUT_PCM_MODE, OutputPcmMode.PCM_16.name)
@@ -921,6 +928,11 @@ object AppSettings {
     fun setSwipeToPlayNext(value: Boolean) {
         swipeToPlayNext.value = value
         prefs.edit().putBoolean(KEY_SWIPE_TO_PLAY_NEXT, value).apply()
+    }
+
+    fun setContinuousPlayback(value: Boolean) {
+        continuousPlayback.value = value
+        prefs.edit().putBoolean(KEY_CONTINUOUS_PLAYBACK, value).apply()
     }
 
     fun setDontRepeatSuggestions(value: Boolean) {
@@ -1579,6 +1591,7 @@ object AppSettings {
     private const val KEY_EXPORT_DOWNLOADS = "export_downloads"
     private const val KEY_LOSSLESS = "lossless_audio"
     private const val KEY_SKIP_SILENCE = "skip_silence"
+    private const val KEY_CONTINUOUS_PLAYBACK = "continuous_playback"
     private const val KEY_OUTPUT_PCM_MODE = "output_pcm_mode"
     private const val KEY_PREFER_USB_DAC = "prefer_usb_dac"
     private const val KEY_DOLBY_ATMOS = "dolby_atmos"
