@@ -202,6 +202,8 @@
     <string name="on_mobile_data">On mobile data</string>
     <string name="in_use">In use</string>
     <string name="blocking">Blocking</string>
+    <string name="continuous_playback">Continuous playback</string>
+    <string name="continuous_playback_subtitle">Play the next song automatically when one ends</string>
     <string name="skip_silence">Skip silence</string>
     <string name="skip_silence_subtitle">Trim gaps longer than a second</string>
     <string name="double_tap_to_seek">Double tap to seek</string>

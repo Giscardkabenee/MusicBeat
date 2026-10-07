@@ -160,6 +160,7 @@ fun SettingsScreen(
     val context = LocalContext.current
 
     val skipSilence by AppSettings.skipSilence.collectAsStateWithLifecycle()
+    val continuousPlayback by AppSettings.continuousPlayback.collectAsStateWithLifecycle()
     val doubleTapToSeek by AppSettings.doubleTapToSeek.collectAsStateWithLifecycle()
     val spatialAudio by AppSettings.spatialAudio.collectAsStateWithLifecycle()
     val nerdStats by AppSettings.showNerdStats.collectAsStateWithLifecycle()
@@ -368,6 +369,23 @@ fun SettingsScreen(
                 checked = preferUsbDac,
                 onCheckedChange = AppSettings::setPreferUsbDac,
                 badge = "Connected".takeIf { outputStatus.isUsb },
+            )
+            RowDivider()
+            SettingsRow(
+                icon = Icons.Rounded.PlaylistPlay,
+                title = stringResource(R.string.continuous_playback),
+                subtitle = stringResource(R.string.continuous_playback_subtitle),
+                trailing = {
+                    Switch(
+                        checked = continuousPlayback,
+                        onCheckedChange = AppSettings::setContinuousPlayback,
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            checkedBorderColor = MaterialTheme.colorScheme.primary,
+                        ),
+                    )
+                },
+                onClick = { AppSettings.setContinuousPlayback(!continuousPlayback) },
             )
             RowDivider()
             SettingsRow(

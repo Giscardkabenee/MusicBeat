@@ -1472,9 +1472,11 @@ class PlaybackService : MediaLibraryService() {
         // in between is Discord's own arithmetic.
         if (exoPlayer.isPlaying) pushDiscordPresence(exoPlayer)
 
-        // If Repeat is OFF (not toggled), play only this song, then stop and close the player.
+        // If Repeat is OFF (not toggled), play only this song, then stop and close the player —
+        // unless "Continuous playback" is on, in which case the queue simply moves on.
         // If Repeat All or Repeat One is toggled, continuous playback proceeds.
-        val shouldStopAndClose = exoPlayer.repeatMode == Player.REPEAT_MODE_OFF || SingleSongPlaybackManager.enabled.value
+        val shouldStopAndClose = SingleSongPlaybackManager.enabled.value ||
+            (exoPlayer.repeatMode == Player.REPEAT_MODE_OFF && !AppSettings.continuousPlayback.value)
         if (ended && (SleepTimer.afterTrack.value || shouldStopAndClose)) {
             exoPlayer.pause()
             if (shouldStopAndClose) {
